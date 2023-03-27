@@ -32,10 +32,33 @@ namespace MyClassesTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void FileNameNullOrEmpty_ThrowsArgumentNullException()
         {
             // TODO;
-            Assert.Inconclusive();
+            FileProcess fp = new FileProcess();
+
+            fp.FileExists("");
+        }
+
+        [TestMethod]
+        public void FileNameNullOrEmpty_ThrowsArgumentNullException_UsingTryCatch()
+        {
+            // TODO;
+            FileProcess fp = new FileProcess();
+
+            try
+            {
+                fp.FileExists("");
+            }
+            catch (ArgumentException)
+            {
+                // Isso foi um sucesso.
+                // The test was a Sucess.
+                return;
+            }
+
+            Assert.Fail("Fail expected");
         }
 
     }
