@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyClasses;
 using System;
+using System.Configuration;
+using System.IO;
 
 namespace MyClassesTest
 {
@@ -8,6 +10,7 @@ namespace MyClassesTest
     public class FileProcessTest
     {
         private const string BAD_FILE_NAME = @"C:\Regedit.exe";
+        private string _GoodFileName;
 
         [TestMethod]
         public void FileNameDoesExists()
@@ -16,9 +19,22 @@ namespace MyClassesTest
             FileProcess fp = new FileProcess();
             bool fromCall;
 
-            fromCall = fp.FileExists(@"C:\Windows\Regedit.exe");
+            SetGoodFileName();
+            File.AppendAllText(_GoodFileName, "Some Text");
+            fromCall = fp.FileExists(_GoodFileName);
+            File.Delete(_GoodFileName);
 
             Assert.IsTrue(fromCall);
+        }
+
+        public void SetGoodFileName()
+        {
+            _GoodFileName = ConfigurationManager.AppSettings["GoodFileName"];
+
+            if (_GoodFileName.Contains("[AppPath]"))
+            {
+                _GoodFileName = _GoodFileName.Replace("[AppPath]", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            }
         }
 
         [TestMethod]
