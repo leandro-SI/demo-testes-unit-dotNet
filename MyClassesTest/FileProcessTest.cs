@@ -22,8 +22,13 @@ namespace MyClassesTest
         [TestMethod]
         public void FileNameDoesNotExists()
         {
-            // TODO;
-            Assert.Inconclusive();
+
+            FileProcess fp = new FileProcess();
+            bool fromCall;
+
+            fromCall = fp.FileExists(@"C:\Regedit.exe");
+
+            Assert.IsFalse(fromCall);
         }
 
         [TestMethod]
